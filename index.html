@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>برنامج الحكم الروحانية المتطور</title>
+    <style>
+        @keyframes colorChange {
+            0% { background: #f0f8ff; }
+            50% { background: #e6e6fa; }
+            100% { background: #f0f8ff; }
+        }
+
+        body {
+            font-family: 'Amiri', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #1a237e;
+            background: linear-gradient(45deg, #e8eaf6, #c5cae9);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .grid-8x8 {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 5px;
+            margin: 20px 0;
+        }
+
+        .letter-cell {
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.2em;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .letter-cell:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .wisdom-card {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .wisdom-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .divine-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255,255,255,0.95);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .search-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #c5cae9;
+            border-radius: 5px;
+            font-size: 1.1em;
+        }
+
+        .category-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .category-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            background: #3f51b5;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .category-btn:hover {
+            background: #283593;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>برنامج الحكم الروحانية المتطور</h1>
+        </div>
+
+        <div class="search-section">
+            <input type="text" class="search-input" id="searchInput" placeholder="ابحث في الحكم...">
+            <div class="category-buttons" id="categoryButtons"></div>
+        </div>
+
+        <div class="grid-8x8" id="letterGrid"></div>
+        
+        <div id="wisdomContainer"></div>
+    </div>
+
+    <div class="divine-message" id="divineMessage"></div>
+
+    <script>
+        // مصفوفة الحكم (100 حكمة)
+        const wisdomArray = [
+            { text: "من عرف نفسه فقد عرف ربه", category: "معرفة" },
+            { text: "الصبر مفتاح الفرج", category: "صبر" },
+            { text: "من صدق في طلب شيء وجده", category: "صدق" },
+            // ... (يمكن إضافة المزيد من الحكم هنا)
+        ];
+
+        // مصفوفة الكلمات الإلهية
+        const divineWords = [
+            "الرحمة", "المحبة", "السلام", "النور", "الهداية",
+            "الحكمة", "العلم", "اليقين", "الصبر", "الشكر"
+        ];
+
+        // الحروف العربية للمصفوفة 8×8
+        const arabicLetters = "ابتثجحخدذرزسشصضطظعغفقكلمنهوي".split("");
+
+        // إنشاء المصفوفة 8×8
+        function createGrid() {
+            const grid = document.getElementById('letterGrid');
+            grid.innerHTML = '';
+            
+            for (let i = 0; i < 64; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'letter-cell';
+                cell.textContent = arabicLetters[i % arabicLetters.length];
+                cell.style.animation = `colorChange ${Math.random() * 2 + 1}s infinite`;
+                cell.addEventListener('click', () => showDivineMessage(cell));
+                grid.appendChild(cell);
+            }
+        }
+
+        // عرض رسالة إلهية
+        function showDivineMessage(cell) {
+            const message = divineWords[Math.floor(Math.random() * divineWords.length)];
+            const messageDiv = document.getElementById('divineMessage');
+            messageDiv.textContent = message;
+            messageDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 2000);
+        }
+
+        // تحليل النص
+        function analyzeText(text) {
+            const words = text.split(' ');
+            const letters = text.replace(/\s/g, '').split('');
+            return {
+                wordCount: words.length,
+                letterCount: letters.length,
+                uniqueLetters: [...new Set(letters)].length
+            };
+        }
+
+        // عرض الحكم
+        function displayWisdom(wisdomList = wisdomArray) {
+            const container = document.getElementById('wisdomContainer');
+            container.innerHTML = '';
+
+            wisdomList.forEach((wisdom, index) => {
+                const analysis = analyzeText(wisdom.text);
+                
+                const card = document.createElement('div');
+                card.className = 'wisdom-card';
+                card.innerHTML = `
+                    <h3>${wisdom.category}</h3>
+                    <p>${wisdom.text}</p>
+                    <div class="analysis">
+                        <small>
+                            عدد الكلمات: ${analysis.wordCount} | 
+                            عدد الحروف: ${analysis.letterCount} | 
+                            الحروف الفريدة: ${analysis.uniqueLetters}
+                        </small>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // البحث في الحكم
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredWisdom = wisdomArray.filter(wisdom => 
+                wisdom.text.toLowerCase().includes(searchTerm) ||
+                wisdom.category.toLowerCase().includes(searchTerm)
+            );
+            displayWisdom(filteredWisdom);
+        });
+
+        // تهيئة التطبيق
+        function initializeApp() {
+            createGrid();
+            displayWisdom();
+            
+            // إضافة أزرار التصنيف
+            const categories = [...new Set(wisdomArray.map(w => w.category))];
+            const categoryButtons = document.getElementById('categoryButtons');
+            
+            categories.forEach(category => {
+                const button = document.createElement('button');
+                button.className = 'category-btn';
+                button.textContent = category;
+                button.onclick = () => {
+                    const filteredWisdom = wisdomArray.filter(w => w.category === category);
+                    displayWisdom(filteredWisdom);
+                };
+                categoryButtons.appendChild(button);
+            });
+        }
+
+        // تشغيل التطبيق
+        initializeApp();
+
+        // تحديث ألوان المصفوفة كل 5 ثوانٍ
+        setInterval(() => {
+            document.querySelectorAll('.letter-cell').forEach(cell => {
+                cell.style.animation = 'none';
+                cell.offsetHeight; // trigger reflow
+                cell.style.animation = `colorChange ${Math.random() * 2 + 1}s infinite`;
+            });
+        }, 5000);
+    </script>
+</body>
+</html>
